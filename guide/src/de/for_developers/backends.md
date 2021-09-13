@@ -243,7 +243,7 @@ einer Prüfung sicherzustellen, dass wir die gewünschten Kapitel ignorieren.
 ```
 
 
-## Ausgabe und Signallisierung eines Fehlers
+## Ausgabe und Signalisierung eines Fehlers
 
 Es ist sehr bequem, die Anzahl der gezählten Worte im Terminal
 auszugeben, wenn wir das Buch interaktiv erstellen.
