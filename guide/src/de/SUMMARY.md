@@ -1,7 +1,7 @@
 # Zusammenfassung
 
 - [mdBook](README.md)
-- [Das Kommandozeilen Tool](cli/README.md)
+- [Kommandozeilen Tool](cli/README.md)
 	- [init](cli/init.md)
 	- [build](cli/build.md)
 	- [watch](cli/watch.md)
@@ -12,7 +12,11 @@
 	- [Zusammenfassung](format/summary.md)
 		- [Kapitel-Entwurf 1]()
 		- [Kapitel-Entwurf 2]()
-	- [Konfiguration](format/config.md)
+	- [Konfiguration](format/config.m)
+		- [Generelles](format/configuration/general.md)
+		- [Pre-Prozessoren](format/configuration/preprocessors.md)
+		- [Renderer](format/configuration/renderers.md)
+		- [Umgebungvariablen](format/configuration/environment-variables.md)
 	- [Theme](format/theme/README.md)
 		- [index.hbs](format/theme/index-hbs.md)
 		- [Syntax Hervorhebungen](format/theme/syntax-highlighting.md)
@@ -21,7 +25,7 @@
 	- [mdBook spezifische Funktionen](format/mdbook.md)
 - [Continuous Integration](continuous-integration.md)
 - [Für Entwickler](for_developers/README.md)
-	- [Pre-Prozessors](for_developers/preprocessors.md)
+	- [Pre-Prozessoren](for_developers/preprocessors.md)
 	- [Alternative Backends](for_developers/backends.md)
 
 -----------
