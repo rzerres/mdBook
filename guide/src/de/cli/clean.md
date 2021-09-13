@@ -30,4 +30,4 @@ das Verzeichnis `./book` verwendet und gelöscht.
 ```bash
 mdbook clean --dest-dir=path/to/book
 ```
-`path/bo/book` kann sowohl ein absoluter oder ein relativer Pfadname sein.
+`path/to/book` kann sowohl ein absoluter oder ein relativer Pfadname sein.

@@ -32,7 +32,7 @@ script:
   - mdbook build path/to/mybook && mdbook test path/to/mybook
 ```
 
-## Bereitstellung Deines Buchs mit GitHub Pages
+## Bereitstellung Deines Buchs über GitHub Pages
 
 Mit den folgenden Anweisungen kannst Du erreichen, dass dein Buch über
 GitHub pages veröffentlicht wird, wenn es mit einem CI Lauf erfolgreich
@@ -61,12 +61,50 @@ deploy:
 
 Das wars!
 
+Anmerkung: Travis verfügt über eine neues Konfigurationsformat
+[dplv2](https://blog.travis-ci.com/2019-08-27-deployment-tooling-dpl-v2-preview-release),
+das sich derzeit noch im Beta-Stadium befindet. Um dieses Format zu
+nutzen aktualisiere die `.travis.yml` Datei bitte wie folgt:
+
+```yaml
+language: rust
+os: linux
+dist: xenial
+
+cache:
+  - cargo
+
+rust:
+  - stable
+
+before_script:
+  - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
+  - (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "^0.3" mdbook)
+  - cargo install-update -a
+
+script:
+  - mdbook build && mdbook test # In case of custom book path: mdbook build path/to/mybook && mdbook test path/to/mybook
+
+deploy:
+  provider: pages
+  strategy: git
+  edge: true
+  cleanup: false
+  github-token: $GITHUB_TOKEN
+  local-dir: book # In case of custom book path: path/to/mybook/book
+  keep-history: false
+  on:
+	branch: main
+  target_branch: gh-pages
+```
+
 ### Manuelle Bereitstellung der GitHub Pages
 
 Wenn Dein CI keine GitHub Pages unterstützt, oder Du die
 Bereitstellung auf einer anderen Plattform mit GitHub Pages Unterstützung vornehmen willst:
 
  *Anmerkung: Du solltest wahrscheinlich anderes temporäres Verzeichnis verwenden*:
+
 
 ```console
 $> git worktree add /tmp/book gh-pages
@@ -94,3 +132,35 @@ deploy: book
 		git commit -m "deployed on $(shell date) by ${USER}" && \
 		git push origin gh-pages
 ```
+
+## Bereitstellung Deines Buchs über GitLab Pages
+
+Erstelle bitte im Wurzelverzeichnis Deines repository's (`project root`), die Datei `.gitlab-ci.yml`.
+Deren Inhalt sollte so aussehen:
+
+```yml
+stages:
+	- deploy
+
+pages:
+  stage: deploy
+  image: rust
+  variables:
+	CARGO_HOME: $CI_PROJECT_DIR/cargo
+  before_script:
+	- export PATH="$PATH:$CARGO_HOME/bin"
+	- mdbook --version || cargo install mdbook
+  script:
+		- mdbook build -d public
+  only:
+	  - master
+  artifacts:
+	  paths:
+		  - public
+  cache:
+	paths:
+	- $CARGO_HOME/bin
+```
+
+Nach einem commit und upload dieser Datei via push this, wird die
+GitLab CI aktiv werden, Dein Buch ist verfügbar!
