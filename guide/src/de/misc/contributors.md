@@ -1,4 +1,4 @@
-# Contributors
+# Mitwirkende
 
 Die folgende Liste enthält die Namen von Unterstützern die geholfen
 haben mdBook zu verbessern. Grossen Applaus für Sie!
@@ -15,7 +15,11 @@ haben mdBook zu verbessern. Grossen Applaus für Sie!
 - [projektir](https://github.com/projektir)
 - [Phaiax](https://github.com/Phaiax)
 - Matt Ickstadt ([mattico](https://github.com/mattico))
-- Weihang Lo ([@weihanglo](https://github.com/weihanglo))
+- Weihang Lo ([weihanglo](https://github.com/weihanglo))
+- Avision Ho ([avisionh](https://github.com/avisionh))
+- Vivek Akupatni ([apatniv](https://github.com/apatniv))
+- Eric Huss ([ehuss](https://github.com/ehuss))
+- Josh Rotenberg ([joshrotenberg](https://github.com/joshrotenberg))
 - [Ruin0x11](https://github.com/Ruin0x11)
 
 Wenn Du das Gefühl hast in dieser Liste zu fehlen, nur zu. Ergänze dich in einem PR.
