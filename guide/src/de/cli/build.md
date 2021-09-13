@@ -7,7 +7,9 @@ mdbook build
 ```
 
 Es wird die `SUMMARY.md` Datei überprüfen, um daraus die Struktur
-abzuleiten und die erforderlichen Quelldateien auswerten.
+abzuleiten und die erforderlichen Quelldateien auswerten. Wenn Dateien
+in `SUMMARY.md` angegeben werden, diese aber noch nicht im Filesystem
+vorhanden sind, werde sie automatisch erstellt.
 
 Die gerenderte Ausgabe wird die gleiche Verzeichnisstruktur besitzen,
 die Du in der Quelldatei vorgegeben hast. Bei großen, umfangreichen

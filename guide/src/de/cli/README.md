@@ -39,7 +39,9 @@ Dies wird den Quellcode der aktuellen Releaseversion von
 Kompilieren. Bitte stelle sicher, das das sich Cargo's `bin` Verzeichnis in in deiner
 `PATH` Environment-Variable befindet.
 
-Mit eine Aufruf von `mdbook help` kannst du überprüfen, ob das Programm funktioniert. Glückwunsch, du hast mdBook erfolgreich installiert!
+Mit eine Aufruf von `mdbook help` kannst du überprüfen, ob das
+Programm funktioniert. Glückwunsch, du hast mdBook erfolgreich
+installiert!
 
 ### Installation der Git Version
 

@@ -2,10 +2,18 @@
 
 Das Kommando serve wird verwendet, um die Vorschau des Buchs
 anzuzeigen. Als Unterlassungswert wird die URL HTTP `localhost:3000`
-genutzt. Zusätzlich wird das Ausgabeverzeichnis deines Buchs auf
-Veränderungen überprüft. Werden Veränderungen festgestellt wird
-automatisch ein rebuild ausgelöst und der Client darüber
-informiert. Für den Refresh wird als Trigger eine websocket Verbindung verwendet.
+genutzt.
+
+```bash
+mdbook serve
+```
+
+Das `serve` Kommand überwacht da Quellverzeichnis deines Buchs `src`
+auf Veränderungen. Werden Veränderungen festgestellt wird automatisch
+ein rebuild ausgelöst und der Client darüber informiert. Das Beinhalte
+die erneute Erstellung von manuell gelöschten Dateien, wenn diese
+weiterhin in der `SUMMARY.md` Datei aufgeführt werden! Für den Refresh
+wird als Trigger eine websocket Verbindung verwendet.
 
 > **Anmerkung:** Das Kommando `serve` dient für den Test der Buch HTML
  Ausgabe. Es ersetzt keinen vollständigen WebServer für eine

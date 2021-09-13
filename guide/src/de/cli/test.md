@@ -1,12 +1,20 @@
 # Das Kommando test
 
-Wenn du ein Buch bearbeitest wirst Du sicherlich auch automatische Tests durchführen wollen. Z.B. verwendet
-[The Rust Programming Book](https://doc.rust-lang.org/stable/book/) einige Quellcode Beispiele, die leicht veraltern können.
-Es ist daher sehr wichtig, die Funktionalität dieser Beispiele über Test-Läufe zeitnah zu überprüfen.
+Wenn du ein Buch bearbeitest wirst Du sicherlich auch automatische
+Tests durchführen wollen. Z.B. verwendet [The Rust Programming
+Book](https://doc.rust-lang.org/stable/book/) einige Quellcode
+Beispiele, die leicht veraltern können.  Es ist daher sehr wichtig,
+die Funktionalität dieser Beispiele über Test-Läufe zeitnah zu
+überprüfen.
+
+mdBook unterstützt ein `test` Kommando, das alle verfügbaren Tests auf
+dein Buch anwendet. Derzeit werden nur rustdoc Tests unterstützt, was
+sich vielleicht mit der weiteren Entwicklung ändert.
 
 #### Tests von Quellcode Blöcken aussetzen
 
-rustdoc überprüft keinen Quellcode, der sich in Blöcken befindet, der mit dem Attribut `ignore` gekennzeichnet sind:
+rustdoc überprüft keinen Quellcode, der sich in Blöcken befindet, der
+mit dem Attribut `ignore` gekennzeichnet sind:
 
 	```rust,ignore
 	fn main() {}
@@ -20,7 +28,8 @@ sind:
 	**Foo**: _bar_
 	```
 
-rustdoc *testet* Quellcode, der sich in Blöcken befindet, die mit keinem Sprachattribut gekennzeichnet sind:
+rustdoc *testet* Quellcode, der sich in Blöcken befindet, die mit
+keinem Sprachattribut gekennzeichnet sind:
 
 	```
 	This is going to cause an error!

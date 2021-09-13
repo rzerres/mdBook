@@ -12,7 +12,7 @@ mdbook clean
 
 Dem `clean` Kommando kannst Du mit dem Aufruf ein Verzeichnis als Argument
 übergeben. Es wird als neue Wurzel (`root`) anstelle Deines
-aktuellen Verzeichnisses für die Ausgabe verwendet.  root instead of
+aktuellen Verzeichnisses für die Ausgabe verwendet.
 
 ```bash
 mdbook clean path/to/book
@@ -30,3 +30,4 @@ das Verzeichnis `./book` verwendet und gelöscht.
 ```bash
 mdbook clean --dest-dir=path/to/book
 ```
+`path/bo/book` kann sowohl ein absoluter oder ein relativer Pfadname sein.

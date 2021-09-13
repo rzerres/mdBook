@@ -46,7 +46,7 @@ Wenn die Datei `SUMMARY.md` bereits zuvor erzeugt wurde, wird das
 Verzeichnis noch fehlenden Dateien entsprechend in `SUMMARY.md`
 definierten Pfade für Dich erzeugen. Das erleichtert es für Dich, die Zielstruktur zunächst zu überdenken. mdBook kann sie anschießend für Dich generieren.
 
-#### <Verzeichnisname>
+#### Angabe eines Verzeichnisnames
 
 Dem Befehl `init` kannst Du bei Aufruf einen Verzeichnisnamen als
 Argument übergeben. Dieses Verzeichnis ist dann anstelle des aktuellen
@@ -66,3 +66,20 @@ Das Thema wird selektiv überschrieben. Das bedeutet, das solche
 Dateien, die du nicht verändern möchtest einfach von Dir gelöscht werden
 können. Die `default` Werte werden dann auch in Deinem Thema
 Anwendung finden.
+
+#### --title
+
+Gibt den Titel für Dein Buch an. Wird dieser nicht vorgegeben, wirst
+Du beim Aufruf interaktiv danach gefragt.
+
+```bash
+mdbook init --title="Mein wunderbares Buch"
+```
+
+#### --ignore
+
+Erstellt eine `.gitignore` Datei. Ist die Datei vorhanden, wird das
+Verzeichnis `book` bei der [Erstellung] eines Buchs ignoriert. Wird der Parameter nicht angegeben, wirst
+Du beim Aufruf interaktiv gefragt, ob die Datei angelegt werden soll.
+
+[building]: build.md
