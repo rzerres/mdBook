@@ -1,8 +1,9 @@
 ## Übersetzungen
 
-> **Anmerkung** Dies ist WIP Code. Für die fortlaufende Diskussion lies bitte zum [PR 1306].
+> **Anmerkung** Dies ist WIP Code. Für die fortlaufende Diskussion
+> lies bitte zum [PR 1306].
 
-[PR 1305]: https://github.com/rust-lang/mdBook/pull/1306
+[PR 1306]: https://github.com/rust-lang/mdBook/pull/1306
 
 Es ist möglich, dein Buch in mehreren Sprachen zu verfassen. Alle
 Übersetzungen werden in einem Ausgabeverzeichnis gebündelt. So wird
