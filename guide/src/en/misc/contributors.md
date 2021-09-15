@@ -21,5 +21,6 @@ shout-out to them!
 - Eric Huss ([ehuss](https://github.com/ehuss))
 - Josh Rotenberg ([joshrotenberg](https://github.com/joshrotenberg))
 - [Ruin0x11](https://github.com/Ruin0x11)
+- Ralf Zerres ([rzerres](https://github.com/zerres))
 
 If you feel you're missing from this list, feel free to add yourself in a PR.

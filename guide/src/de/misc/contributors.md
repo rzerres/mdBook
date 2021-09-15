@@ -21,5 +21,6 @@ haben mdBook zu verbessern. Grossen Applaus für Sie!
 - Eric Huss ([ehuss](https://github.com/ehuss))
 - Josh Rotenberg ([joshrotenberg](https://github.com/joshrotenberg))
 - [Ruin0x11](https://github.com/Ruin0x11)
+- Ralf Zerres ([rzerres](https://github.com/zerres))
 
 Wenn Du das Gefühl hast in dieser Liste zu fehlen, nur zu. Ergänze dich in einem PR.
