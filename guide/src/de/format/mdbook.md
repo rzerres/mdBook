@@ -1,11 +1,10 @@
-# Markdown in mdBook
+# mdBook-spezifische Funktionen
 
-## Code Zeilen verbergen
+## Code Zeilen unterdrücken
 
-Wenn Du mit mdBook in einer Quellcode Datei einzelne Zeilen verbergen
-möchtest, verwendest Du dazu eine einfache Syntax. Du markierst die
-relevanten Zeilen in dem Du Zeichen `#` vorangestellt. Dies entspricht
-der Notation, die auch [Rustdoc][rustdoc-hide] selbst verwendet.
+Diese mdBook Funktion ermöglicht die Unterdrückung von Code Zeilen
+durch voranstellen von `#` [wie auch in Rustdoc üblich][rustdoc-hide].
+Das funktioniert derzeit nur mit Blöcken, die Rust Quellcode enthalten.
 
 [rustdoc-hide]: https://doc.rust-lang.org/stable/rustdoc/documentation-tests.html#hiding-portions-of-the-example
 
@@ -18,38 +17,96 @@ der Notation, die auch [Rustdoc][rustdoc-hide] selbst verwendet.
 # }
 ```
 
-Dies wird dann im gerendten HTML wie folgt übersetzt.
+Würde zu folgendem gerenderten Ausdruck führen.
 
 ```rust
 # fn main() {
 	let x = 5;
-	let y = 7;
+	let y = 6;
 
 	println!("{}", x + y);
 # }
 ```
 
-## Dateien einfügen
+Der Code Block wird mit einem Icon annotiert (<i class="fa fa-eye"></i>),
+das die Sichtbarkeit von verborgenen Zeilen umschalten kann.
 
-Mit der folgenden Syntax können vollständige Dateien in mdbook eingefügt werden:
+## Rust Playground
+
+Blöcke mit Rust Code erhalten automatische eine Annotierung mit einem `play` Button
+(<i class="fa fa-play"></i>). Wird er aktiviert erfolgt die Ausführung des enthaltenen
+Quellcodes und die Ergebnis-Ausgabe unterhalb des Quellcode Blocks.
+Dies funktioniert durch Übergabe des Quellcodes an den [Rust Playground].
+
+```rust
+println!("Hello, World!");
+```
+
+Existiert in diesem Code-Block keine `main` Funktion, wird der
+Quellcode automatisch in eine solche eingebettet.
+
+Möchtest die die Anzeige des play Button unterdrücken, kannst Du die `noplayground` Option wie folgt einbinden:
+
+~~~markdown
+```rust,noplayground
+let mut name = String::new();
+std::io::stdin().read_line(&mut name).expect("failed to read line");
+println!("Hallo {}!", name);
+```
+~~~
+
+## Rust Code Block Attribute
+
+Zusätzliche Attribute können mit einem Komma, mit Leerstellen oder
+Tab-Zeichen getrennt direkt hinter dem Sprach Attribut ergänzt werden.
+Hier ein Beispiel:
+
+~~~markdown
+```rust,ignore
+# Dieses Beispiel würde nicht getestet.
+panic!("oops!");
+```
+~~~
+
+Dies ist äusserst wichtig, wenn [`mdbook test`] verwendet wird, um
+eingebundenen Rust Beispielcode zu testen.  Es werden die gleichen
+Attribute wie bei [rustdoc Attribute] verwendet. Zusätzlich gelten
+folgende Ergänzungen:
+
+* `editable` — Schaltet den [editor] ein.
+* `noplayground` — Deaktiviert den play Button, wird aber dennoch getestet.
+* `mdbook-runnable` — Erzwingt die Anzeige des play Buttons.  Es ist
+  erwünscht, dies mit dem `ignore` Attribut zu kombinieren, wenn
+  Beispiele nicht getestet werden sollen, dem Anwender aber offen
+  stehen soll, diesen Quellcode interaktive auszuführen.
+* `ignore` — Es wird nicht getestet und der play Button wird nicht
+  angezeigt. Dennoch wird die Rust Syntax hervorgehoben.
+* `should_panic` — When Quellcode ausgeführt wird, soll panic ausgelöst werden.
+* `no_run` — Der Quellcode wird kompiliert und getestet, aber nicht ausgeführt.
+  Zusätzlich wird der play Button ausgeblendet.
+* `compile_fail` — Das Kompilieren des Quellcodes soll scheitern.
+* `edition2015`, `edition2018`, `edition2021` — Erzwingt die Nutzung der angegebenen Rust Edition.
+  Um dies global anzugeben vergleiche  [`rust.edition`].
+
+[`mdbook test`]: ../cli/test.md
+[rustdoc Attribute]: https://doc.rust-lang.org/rustdoc/documentation-tests.html#attributes
+[editor]: theme/editor.md
+[`rust.edition`]: configuration/general.md#rust-options
+
+## Einfügen von Dateien
+
+Mit der folgenden Syntax können Dateien mit Rust Quellcode im Buch eingefügt werden:
 
 ```hbs
 \{{#include file.rs}}
 ```
 
-Der Pfad zur Datei muss in relativer From zur aktiven Quelldatei angegeben werden.
+Der Pfad zur Datei wird relativ zur aktiven Quelldatei ausgewertet.
 
-mdBook wird inkludierte Dateien immer als Markdown Quellen interpretieren.
-
-Oftmals soll die Quellcode Sequenze oder ein Beispiel in mdbook
-eingefügt werden, deren Inhalte aber nicht interpretiert werden. Du
-möchtest lediglich die `raw` Zeilen im Buch angeben. Um das zu
-erreichen umrahmst du die Einfüge-Anweisung mit der
-Zeichenfolge
-
-	```` ``` ````
-
-schließt sie also mit vier backquotes ein. Das sieht dann so aus:
+mdBook wird inkludierte Dateien als Markdown Dateien
+interpretieren. Da ein include Kommando oft verwendet wird um
+Quellcode Artifakte und Beispiele einzubinden, wird es oft wie folgt
+realisiert:
 
 ````hbs
 ```
@@ -57,11 +114,13 @@ schließt sie also mit vier backquotes ein. Das sieht dann so aus:
 ```
 ````
 
-## Teile einer Datei einbinden
+Diese Syntax wird verwendet, um den Inhalt der Datei anzuzeigen, die
+Interpretation der Anweisungen aber zu verhindern.
 
-Du möchest nur einzelne Zeilen oder einen bestimmten Teil einer Datei
-einbinden (z.B: Zeilen aus einem Beispiel erläutern). mdbook
-unterstützt hierzu vier verschiedene Modi:
+## Einbindung von Teilen innerhalb einer Datei
+
+Oftmals wird nur ein bestimmter Teil einer Datei benötigt (z.B. nur ein relevanter Zeilenblock).
+mdBook unterstützt hierzu vier verschiedene Modi für deren Einbindung:
 
 ```hbs
 \{{#include file.rs:2}}
@@ -70,26 +129,27 @@ unterstützt hierzu vier verschiedene Modi:
 \{{#include file.rs:2:10}}
 ```
 
-Das erste Kommando wird nur die zweite Zeile aus der Datei `file.rs`
-einbinden. Das zweite Kommando wird alle Zeilen bis zur 10ten Zeil des
-berücksichtigen. Die Zeilen 11 bis zum Ende der Datei werden
-ignoriert.  Die dritte Zeile wird alle Zeilen ab Zeile 2 einbinden,
-d.h. nur Zeile 1 wird ausgelassen. Im letzten Kommando wird der
-Bereich von Zeile 2 bis 10 aus der Datei `files.rs` eingebunden.
+Das erste Kommando bindet nur die zweite Zeile aus der Datei
+`files.rs` ein. Das zweite Kommando bindet alle Zeilen von Beginn der
+Datei bis Zeile 10 ein. Code von Zeile 11 an bis zum Dateiende wird
+ignoriert. Das dritte Kommando bindet Code ab Zeile 2 bis zum
+Dateiende ein (die erste Zeile wird also ausgelassen). Im letzten
+Kommando wird nur der Auszug von Zeile 2 bis 10 aus der Datei
+`file.rs` eingebunden.
 
-Um zu verhindern, das unbeabsichtigt durch das Einbinden anderer
-Dateien das Rendern Deines Buches korrumpiert wird, wurde die Syntax
-mit `Ankern` anstelle von Zeilennummern eingeführt. In der zu
-importierenden Datei kennzeichnest Du nun Bereiche mit den `Ankern`,
-die sich aus einem Marker und einem regulären Ausdruck
-zusammensetzt. Sie werden als Paar korrespondierender Markerzeilen
-eingetragen. Die Zeile die den Anker startet, verwendet
-"ANCHOR:<Marker>" (z.B "ANCHOR:\s*[\w_-]+"). Die Zeile die den Anker
-abschließt verwendet "ANCHOR_END:<Marker>" (hier:
-"ANCHOR_END:\s*[\w_-]+"). Anker können in jeder zu kommentierenden
-Datei eingefügt werden.
+Damit nicht die Änderungen innerhalb der eingebundenen Dateien zu
+Abbrüchen bei der Erstellung Deines Buchs führt, kannst Du auch mit
+sogenannten `Anchors` arbeiten. Dann werden nicht explizite Zeilen der
+Quellcode-Datei eingebunden, sondern vielmehr entsprechend der
+gewählten Markierungen ausgewählt. Ein `Anchor` ist ein
+gekennzeichneter Code-Block bestehend aus zwei zusammengehörigen
+Anchor Anweisungen. Der Start-Block des Anchors ist mit dem regulären
+Ausdruck `ANCHOR:\s*[\w_-]+` gekennzeichnet. Der Anchor endet mit dem
+regulären Ausdruck `ANCHOR_END:\s*[\w_-]+`. Diese Syntax erlaubt es
+Dir, auch mehrere Anchor-Paare in den zu kommentierten Quellcode
+einzufügen.
 
-Hier ein Beispiel, die mit drei korrespondierende Ankern arbeitet:
+Betrachten wir den folgenden Quellcode einer einzubindenden Datei:
 
 ```rs
 /* ANCHOR: all */
@@ -107,46 +167,46 @@ impl System for MySystem { ... }
 /* ANCHOR_END: all */
 ```
 
-In mdbook bindest Du diese Ankerzeilen nun wie folgt ein:
+Anschließend kannst Du diese Anchor wie folgt im Buch aufrufen:
 
 ````hbs
-Import einer Komponente:
+Here is a component:
 ```rust,no_run,noplayground
 \{{#include file.rs:component}}
 ```
 
-Import eines Systems:
+So wird das Anchor Paar system angesprochen:
+
 ```rust,no_run,noplayground
 \{{#include file.rs:system}}
 ```
 
-Import der ganzen Datei:
+Zum Abschluss die gesammte Datei.
+
 ```rust,no_run,noplayground
 \{{#include file.rs:all}}
 ```
 ````
 
-> **Anmerkung:** Die Zeilen mit einer Anker-Anweisungen werden beim
-Rendern ignoriert.
+Zeilen die andere Anchor Anweisungen innerhalb des gewählten Anchor
+Paares enthalten werden ignoriert.
 
-## Einfügen einer Datei, mit selektiv ausgewählten Zeilen
+## Einbinden einer Datei mit Ausblenden aller ausser der der spezifizierten Zeilen
 
-Für die Einbindung von Rust Quellcode aus externen Dateien hilft die
-Anweisung `rustdoc_include`, wenn die anzuzeigenden Inhalte selektiv
-auswählbar sein sollen. Die Kennzeichnung der Zeilen oder Anker in
-der Quellcode Datei entspricht der Syntax, din in der `include`
-Anweisung bereits beschriebenen wurde.
+Mit `rustdoc_include` kann Quellcode von externen Rust Dateien im Buch
+eingebunden werden. Dies kann sich auf Beispiel Quellcode beziehen,
+für den zunächst nur ausgewählte Zeilen oder Anchor Blöcke
+angezeigt werden sollen (vgl. `include`).
 
-Im Unterschied zu `include` werden Zeilen die **nicht** in den Bereich
-der ausgewählten Zeilen fallen dennoch angezeigt, jedoch mit einem
-beginnenden `#` annotiert. Das gilt ebenso für Anker-Kennzeichnungen.
-Das ermöglicht es dem Anwender, den Auszug (`sippet`) des Beispiels in
-der vollständigen Form anzuzeigen. rustdoc wird das vollständige
-Beispiel verwenden, wenn du den Renderaufruf mit `mdbook test`
-startest.
+Zeilen die sich nicht mit den ausgewählten Zeilennummern oder Anchor
+Blöcken übereinstimmen werden dennoch eingebunden, jedoch mit wird bei
+dieser ein `#` Zeichen vorangestellt. So kann der Leser den
+Code-Schnipsel expandieren, um den gesammten Quellcode-Block
+anzusehen. Rustdoc wird bei Aufruf von `mdbook test` das vollständige
+Beispiel berücksichtigen.
 
-Betrachten wir das folgende Beispiel, das Rust Quellquode aus der
-Datei `file.rs` verwendet:
+Hierzu betrachten wir das folgende Rust Beispiel, das in der Datei `file.rs`
+codiert ist:
 
 ```rust
 fn main() {
@@ -159,23 +219,22 @@ fn add_one(num: i32) -> i32 {
 }
 ```
 
-Wenn ein snippet annotiert werden soll, das anfangs nur die Zeile 2 anzeigen
-soll, lautet die Syntax:
+Wir können diesen Schnipsel mit nur 2 anzuzeigenden Quellcodzeilen einbinden:
 
 ````hbs
-Um die `add_one` Function aufzurufen, übergeben wird ein `i32` und binden den Rückgabewert an `x`:
+To call the `add_one` function, we pass it an `i32` and bind the returned value to `x`:
 
 ```rust
 \{{#rustdoc_include file.rs:2}}
 ```
 ````
 
-Dies hätte den gleichen Effekt, als ob wir die Quellcode Zeilen
-manuell eingefügt hätten, um anschießend alle Zeilen bis auf Zeile 2
-mit `#` auszukommentieren.
+Dies hat den gleichen Effekt, als hätten wir den Quellcode manuell
+hinein kopiert und alle ausser Zeile 2 mit einem `#` Zeichen
+auskommentiert:
 
 ````hbs
-Um die `add_one` Function aufzurufen, übergeben wird ein `i32` und binden den Rückgabewert an `x`:
+To call the `add_one` function, we pass it an `i32` and bind the returned value to `x`:
 
 ```rust
 # fn main() {
@@ -185,12 +244,12 @@ Um die `add_one` Function aufzurufen, übergeben wird ein `i32` und binden den R
 #
 # fn add_one(num: i32) -> i32 {
 #     num + 1
-#}
+# }
 ```
 ````
 
-Das vollständige Beispiel mit `rustdoc_include` sieht so aus
-(Aktiviere das "Auge" Icon um den Rest der Datei zu sehen):
+Im gerenderten Buch sieht dies dann wie folgt aus. Aktiviere das
+"expand" Icon um den Rest des Quellcodes anzuzeigen.
 
 ```rust
 # fn main() {
@@ -200,26 +259,47 @@ Das vollständige Beispiel mit `rustdoc_include` sieht so aus
 #
 # fn add_one(num: i32) -> i32 {
 #     num + 1
-#}
+# }
 ```
 
-## Einfügen von ausführbaren Rust Dateien
+## Einfürgen eine Datei mit ausführbaren Rust Code
 
-Verwendest Du die folgenden Syntax, kannst Du Rust Quellcode Dateien
-einbinden, die der Anwender interaktiv ausführen kann:
+Die folgende Syntax ermöglicht die Einbindung einer Datei mit
+ausführbaren Rust Code in Deinem Buch:
 
 ```hbs
 \{{#playground file.rs}}
 ```
+Der Pfad Angabe zur Rust Datei wird in relativer Form zur aktiven Quelldatei angegeben.
 
-Der Pfad zur Rust Quellcode Datei muss in relativer Form zur aktiven
-Markdown Datei angegeben werden. Wenn das `play` Icon angeklickt wird, wird das Code snippet zum
-[Rust Playground] gesendet. Es wird dort kompiliert und ausführt. Das
-Ergebnis wird wieder an den aufrufenden Prozess zurückgesendet und
-unterhalb des Codes ausgegeben.
+Wenn der play Butten aktiviert wird, wird die angesprochenen Quellcode
+zum [Rust Playground] übertragen, dort kompiliert und ausgeführt. Das
+Ergebnis wird zurückgeschickt und unterhalb der Code Zeilen ausgegeben.
 
-
-Im gerenderten mdbook sieht unser Beispiel dann so aus:
+Ein gerendertes Code Schnipsel sieht dann so aus:
 
 {{#playground example.rs}}
+
+Alle zusätzlichen Werte die nach dem Dateinamen angegeben werden, werden
+als Attribute an den Code Block angefügt. Z.B. wird `\{{#playground example.rs
+editable}}` erzeugt den folgenden Code Block:
+
+~~~markdown
+```rust,editable
+# Contents of example.rs here.
+```
+~~~
+
+Das Attribut `editable` aktiviert den [editor] wie im Link [Rust
+code block attributes](#rust-code-block-attributes) beschrieben.
+
 [Rust Playground]: https://play.rust-lang.org/
+
+## Steuerungsseite \<title\>
+
+Ein Kapitel kann ein Marke \<title\> setzen, die sich vom Eintrag im
+Inhaltsverzeichnis (sidebar) unterscheidet. Hierzu verwendest Du die folgende Syntax:
+
+```hbs
+\{{#title My Title}}
+```

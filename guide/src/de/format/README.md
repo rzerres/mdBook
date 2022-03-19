@@ -1,8 +1,8 @@
-# Formatierung
+# Format
 
-In diesem Kapitel wirst du lernen können wie:
+In diesem Abschnitt lernst Du folgende Inhalte:
 
-- Du ein Buch richtig strukturierst
-- Du eine `SUMMARY.md` Datei richtig formatierst
-- Du die Datei `book.toml` konfigurierst
-- Du ein Thema auf deine Bedürfnisse anpassen kannst
+- Dein Buch richtig strukturieren
+- Deine `SUMMARY.md` Datei formatieren
+- Wie Dein Buch die `book.toml` Datei verwendet
+- Wie Du ein `theme` anpassen kannst

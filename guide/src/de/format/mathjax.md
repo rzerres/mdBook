@@ -1,46 +1,42 @@
 # MathJax Unterstützung
 
-mdBook verfügt über eine optionale Unterstützung für mathematische Gleichungen durch das Crate
+mdBook unterstütz optional mathematische Ausdrücke via
 [MathJax](https://www.mathjax.org/).
 
-Um MathJax zu aktivieren musst Du den `mathjax-support` Schlüssel in deiner `book.toml`
-in der Rubrik `output.html` ergänzen.
+Um MathJax einzubinden musst Du den `mathjax-support` Schlüssel in deiner `book.toml`
+Datei im Abschnitt `output.html` aktivieren.
 
 ```toml
 [output.html]
 mathjax-support = true
 ```
 
->**Anmerkung:** Der gewöhnlich in MathJax verwendet Trenner wird
-> derzeit noch nicht unterstützt. Derzeit musst du die relevanten
-> Bereiche mit dem Trennsymbol `$$ ... $$` kennzeichnen. Ein
-> zusätzlicher Backslash (`\[ ... \]`) ist als Trennsymbol
-> notwendig. Wir hoffen diese Limitierung zeitnah auszuräumen.
+>**Anmerkung:** Die von MathJax üblicherweise verwendeten Trennzeichen
+werden derzeit noch nicht unterstützt. Daher musst Du bis auf
+Weiteres als Trennung `$$ ... $$` und `\[ ... \]` als Trennung
+verwenden, damit zusätzliche backslash'es funktionieren. Wir hoffen,
+diese Einschränkung bald in den Quellen überflüssig zu machen.
 
->**Anmerkung:** Wenn sie zwei Backslashes in MathJax Blöcken verwenden
-> (z.B: in Kommandos wie `\begin{cases} \frac 1 2 \\ \frac 3 4
-> \end{cases}`) ist es leider nötig diese um zwei weitere Backslashes
-> zu ergänzen: (hier: `\begin{cases} \frac 1 2 \\\\ \frac 3 4
+>**Anmerkung:** Wenn doppelte backslash'es in einem MathJax Block einsetzt wird,
+z.B. im Kommando `\begin{cases} \frac 1 2 \\ \frac 3 4 \end{cases}`), musst Du
+> für eine korrekte Funktion in mdBook _zwei weitere_ backslashes einfügen (z.B. `\begin{cases} \frac 1 2 \\\\ \frac 3 4
 > \end{cases}`).
 
-
-### Inkludierte Gleichungen
-
-Gleichungen, die in den Text inkludiert werden verwenden `\\(` und
-`\\)` als Trennzeichen. Nachfolgendes Beispiel veranschaulicht eine inkludierte Gleichung
-\\( \int x dx = \frac{x^2}{2} + C \\):
+### Inline Gleichungen
+Inline Gleichungen werden mit dem Ausdruck `\\(` und `\\)` getrennt. Um also die nachfolgend Gleichung zu rendern,
+\\( \int x dx = \frac{x^2}{2} + C \\) würdest Du folgenden Code eingeben:
 
 ```
 \\( \int x dx = \frac{x^2}{2} + C \\)
 ```
 
-### GLeichungsblöcke
-
-Ganz Blöcke werden mit den Trennzeichen `\\[` und `\\]` gekennzeichnet. Um die folgende GLeichung
+### Block Geichungen
+Block Gleichungen werden mit dem Ausdruck `\\[` und `\\]` getrennt. Um die folgende Block Gleichung zu rendern
 
 \\[ \mu = \frac{1}{N} \sum_{i=0} x_i \\]
 
-auszudürcken würden sie folgenen Code im Text anfügen:
+
+ist folgender Code einzugebeny:
 
 ```bash
 \\[ \mu = \frac{1}{N} \sum_{i=0} x_i \\]

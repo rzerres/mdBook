@@ -20,6 +20,14 @@ name = "日本語"
 title = "本のサンプル"
 description = "この本は実例です。"
 authors = ["Ruin0x11"]
+
+[language.de]
+name = "Deutsch""
+title = "mdBook Documentation"
+description = "Erstelle ein Buch aus Markdown Dateien."
+authors = ["Ralf Zerres"]
+```
+
 ```
 
 Jede Sprache muss den Parameter `name` definieren. Für eine
