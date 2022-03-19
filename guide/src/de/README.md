@@ -1,44 +1,34 @@
 # Einführung
 
-**mdBook** ist ein Kommandozeilen Werkzeug und Rust crate, um Bücher
-aus Markdown Quellcode zu erstellen. Die Ausgabe ähnelt Tools wie
-Gitbook. mdBook ist ideal für die Erstellung von Produkt- oder
-API-Dokumentation, Tutorials, Kursmaterialien. Es erstellt eine
-saubere, leicht navigierbare Ausgabe. Da es mit
-[Rust](https://www.rust-lang.org) erstellt wurde, eignet es sich dank
-hoher Geschwindigkeit und Einfachheit als Werkzeug, um
-Veröffentlichungen direkt auf gehostete Webseiten auszugeben.  Zudem
-erleichtern dies Autmatisierungswerkzeuge wie beispielsweise [GitHub
-Pages](https://pages.github.com). Dieser Leitfaden dient einerseits
-als mdBook Dokumentation. Andererseits ist es ein hervorragendes
-Beispiel, wie eine gerenderte Ausgaben aussehen kann, die mit
-mdBook erzeugt wurde.
+**mdBook** ist ein Kommandozeilen Werkzeug, um Bücher aus Markdown
+Quellcode zu erstellen. mdBook ist ideal für die Erstellung von
+Produkt- oder API-Dokumentation, Tutorials, Kursmaterialien, die eine
+einfache, klare und adaptierbare Darstellung benötigen.
 
-mdBook beinhaltet sowohl die Unterstützung für das Pre-Processing
-deiner Markdown Quellen, als auch die unterstützung alternative
-Renderer, die in anderer Formate als HTML ausgeben können. Seine
-Fähigkeiten ermöglichen es auch andere Funktionen umzusetzen. Hierzu
-zählt z.B. die Validierung des Quellmaterials. Eine
-[Suche](https://crates.io/search?q=mdbook&sort=relevance) in Rust's
-[crates.io](https://crates.io) ist eine großartige Möglichkeit, solche
-Erweiterungen zu entdecken.
 
-## API Dokumentationen
+* Die einfache [Markdown] Syntax hilft Dir, Dich auf den Inhalt zu konzentrieren
+* Integrierte [Suchfunktion]-Unterstützung
+* [Hervorhebung von Farb-Syntax], mit denen Code-Blöcke für viele unterschiedliche Sprachen hervorgehoben werden können
+* [Themen]-Dateien erlauben die Anpassung von Formatierungsanweisungen der Ausgabe
+* [Pre-Prozessoren] können Erweiterungen für eine angepasste Syntax und modifizierten Inhalt bereitstellen
+* [Backends] können die Ausgabe in vielfältige Formate rendern
+* In [Rust] mit Blick auf Geschwindigkeit, Sicherheit und Einfachheit geschrieben
+* Automatische Tests der [Rust Quellcode Fragmente]
 
-Neben diesem Buch kannst Du die mit Rustdoc erzeugte [API Dokumentation]
-(https://docs.rs/mdbook/*/mdbook/) online lesen.  Wenn du mdBook als crate
-verwenden, oder die vorliegenden Texte neu rendern möchtest, wird dir dieser
-Link mit weiterführenden Erläuterungen bei der Einarbeitung helfen.
+Dieser Leitfaden ist ein Beispiel dafür, welche Ausgaben mdBook
+erzeugt. mdBook wird vom Projekt `Die Programmier-Sprache Rust`
+selbst verwendet. Das Buch [The Rust Programming Language][trpl] ist
+ein weiteres Beispiele in dem mdBook zur Anwendung kommt.
 
-## Markdown
-
-mdBook's [Parser](https://github.com/raphlinus/pulldown-cmark) liegt
-die [CommonMark](https://commonmark.org/) Specification zu grunde. Du
-kannst dir mit dem [Tutorial](https://commonmark.org/help/tutorial/)
-einen schnellen Überblick verschaffen, Common Mark online
-[ausprobieren](https://spec.commonmark.org/dingus/). Für eine
-ausführliche Beschreibung der Sprache lies bitte im [Markdown
-Guide](https://www.markdownguide.org).
+[Markdown]: format/markdown.md
+[Suchfunktion]: guide/reading.md#search
+[Hervorhebung von Farb-Syntax]: format/theme/syntax-highlighting.md
+[Themen]: format/theme/index.html
+[Pre-Prozessoren]: format/configuration/preprocessors.md
+[Backends]: format/configuration/renderers.md
+[Rust]: https://www.rust-lang.org/
+[trpl]: https://doc.rust-lang.org/book/
+[Rust Quellcode Fragmente]: cli/test.md
 
 ## Beteiligung
 
@@ -51,9 +41,9 @@ bereinigen und neue Funktionen einzubinden. Wenn du Dich beteiligen
 möchtest lies bitte unsern Leitfaden
 [CONTRIBUTING](https://github.com/rust-lang/mdBook/blob/master/CONTRIBUTING.md)
 oder sende deine Verbesserungen als
-[PR](https://github.com/rust-lang/mdBook/pulls) ein.
+[Pull Request](https://github.com/rust-lang/mdBook/pulls) ein.
 
-## License
+## Lizenz
 
 mdBook, mit dem vollständigen Quellcode wird unter der [Mozilla Public
 License v2.0](https://www.mozilla.org/MPL/2.0/) freigegeben.
