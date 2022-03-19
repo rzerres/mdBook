@@ -1,166 +1,157 @@
 # `mdbook` in Continuous Integration einbinden
 
-Auch wenn die folgenden Beispiele die Travis CI verwenden, die
-beschiebenen Prinzipen sollten leicht auf die Lösungen anderer
-Anbieter übertragen werden können.
+Es gibt eine Vielzahl von Diensten, beispielsweise [GitHub Actions] oder [GitLab
+CI/CD], die zum automatisierten Testen und Ausrollen deines Buchs verwendet werden können.
 
-## Erstellung- und Testläufe für dein Buch sicherstellen
+Die nachfolgenden Anmerkungen geben generelle Hinweise, wie Du einen
+solchen Dienst für dein mdBook verwenden kannst.
+Spezielle Formeln findest auf der Wiki Seite [Automated Deployment].
 
-Nachfolgend findest Du beispielhaft eine einfache Travis CI Konfiguration `.travis.yml`.
-Diese stellt sicher, dass `mdbook
-build` und `mdbook test` erfolgreich ausgeführt werden können.
+[GitHub Actions]: https://docs.github.com/en/actions
+[GitLab CI/CD]: https://docs.gitlab.com/ee/ci/
+[Automated Deployment]: https://github.com/rust-lang/mdBook/wiki/Automated-Deployment
 
-Der Schlüssel zu schnellen CI Ablaufzeiten ist die Caching-Installation von `mdbook`!
-Dies verhindert, dass ein `mdbook` binary bei jedem CI Lauf erneut erstellt werden muss.
+## Installing mdBook
 
-```yaml
-language: rust
-sudo: false
+Es gibt einige Strategien um mbBook zu installieren.
+Die für Dich passende Methode hängt von den Anforderungen und Präferenzen ab.
 
-cache:
-  - cargo
+### Vorkompilierte Binärdateien
 
-rust:
-  - stable
+Die wahrscheinlich einfachste Methode ist die Verwendung von
+vorkompilierten Binärdateien, wie sie auf [GitHub Releases
+page][releases] gefunden werden können. Ein einfacher Ansatz ist es,
+das bewünschte Programm mit dem beliebten CLI-Werkzeug `curl` herunterzuladen:
 
-before_script:
-  - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
-  - (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "^0.3" mdbook)
-  - cargo install-update -a
-
-script:
-  - mdbook build path/to/mybook && mdbook test path/to/mybook
+```sh
+mkdir bin
+curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.15/mdbook-v0.4.15-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=bin
+bin/mdbook build
 ```
 
-## Bereitstellung Deines Buchs über GitHub Pages
+Einige Überlegungen zu diesem Ansatz:
 
-Mit den folgenden Anweisungen kannst Du erreichen, dass dein Buch über
-GitHub pages veröffentlicht wird, wenn es mit einem CI Lauf erfolgreich
-erstellt werden konnte. Die Veröffentlichung erfolg ind einer `master` branch.
+* Es ist relativ schnell und benötigt nicht notwendigerweise die Handhabung von Zwischenspeicherung.
+* Rust muss nicht zuvor installiert werden.
+* Wenn eine spezielle URL angegeben wird bedeutet die, Du musst diese manuell anpassen, wenn eine neuere Version verwendet werden soll.
+  Das ist vielleicht von Nutzen, wenn Du bei einer speziellen Version verbleiben willst.
+  Wie auch immer, einige Anwender bevorzugen den Einsatz einer aktuelleren Version, zum Zeitpunkt ihrer Verfügbarkeit.
+* Du bist darauf angewiesen, dass das GitHub CDN verfügbar ist.
 
-Zunächst musst Du dazu einen neuen GitHub "Persönlichen
-Zugangs-Schlüssel" erzeugen, der die Berechtigung für dein
-"public_repro" besitzt (verwende "repro" für en privates
-Repository). Gehe anschließend zu deinen Repository Einstellungen für
-Travis CI. Füge eine Umgebungsvariable mit dem Namen `GITHUB_TOKEN` ein,
-der mit der tag `secure` markiert ist und *nicht* in den Log Dateien angefügt wird.
+[releases]: https://github.com/rust-lang/mdBook/releases
 
-Dann füge das nachfolgende `snippet` in Deine `.travis.yml` Datei an
-und aktualisieren den Pfad zu deinem Buch Verzeichnis:
+### Erstellung aus dem Quellcode
 
-```yaml
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  local-dir: path/to/mybook/book
-  keep-history: false
-  on:
-	branch: master
+Um die Version aus dem Quellcode selber zu bauen erzwingt die
+vorherige Installation von Rust. Einige Dienste haben Rust bereits
+vorinstalliert. Falls nicht, musst Du eine Anweisung ergänzen, die
+diese umsetzt.
+
+Wenn Rust installiert wurde, kannst Du mit dem Aufruf von `cargo
+install` die mbBook Version erzeugen und installieren. Wir empfehlen Dir, dabei
+der SemVer Spezifikation zu folgen. Die kann sicherstellen, dass du immer nur eine
+**funktionsfähige** Version von mbBook verwendest. Hier ein Beispiel:
+
+```sh
+cargo install mdbook --no-default-features --features search --vers "^0.4" --locked
 ```
 
-Das wars!
+Die bindet einige empfohlene Optionen ein:
 
-Anmerkung: Travis verfügt über eine neues Konfigurationsformat
-[dplv2](https://blog.travis-ci.com/2019-08-27-deployment-tooling-dpl-v2-preview-release),
-das sich derzeit noch im Beta-Stadium befindet. Um dieses Format zu
-nutzen aktualisiere die `.travis.yml` Datei bitte wie folgt:
+* `--no-default-features` — Deaktiviert Funktionen wie beispielsweise
+  einen HTTP server, der mit `mdbook serve` aktiviert werden
+  kann. Dies ist in einer CI Umgebung wahrscheinlich nicht
+  notwendig. Sicher beschleunigt diese Abschaltung die Erstellungszeit
+  signifikant.
+* `--features search` — Wenn die Standard-Funktionen deaktiviert
+  werden erfordert dies natürlich, dass die gewünschten Dienste
+  manuell aktiviert werden müssen. Hierzu gehört beispielsweise die im
+  code eingebaute [Suche] Funktion.
+* `--vers "^0.4"` — Dies wird die aktuellste Version der `0.4` Series
+  installieren. Jedoch verhindert diese Angabe auch, dass
+  Nachfolge-Versionen wie beispielsweise `0.5.0` zur Anwendung kommen.
+  Cargo wird deine mdBook Version automatisch aktualisieren, wenn die
+  bereits installierte Version veraltet ist.
+* `--locked` — Dies Angabe verwendet die Abhängigkeiten, die zur
+  installierten Release-Version passen.  Ohne die `--locked` Option,
+  würde die Nachfolge-Versionen mit all ihren Abhängigkeiten
+  einbinden, was möglicherweise neben gewünschten Fehlerbehebungen bar
+  auch (selten )dazu führen könnte, das der Erstellunglauf scheitert.
 
-```yaml
-language: rust
-os: linux
-dist: xenial
+Wahrscheinlich wirst Du die Möglichkeiten des Zwischenspeicherns
+überdenken, da das Erstellen von mdBook für denen Compile-Lauf etwas
+langsam sein kann.
 
-cache:
-  - cargo
+[Suche]: guide/reading.md#search
 
-rust:
-  - stable
+## Test Ausführung
 
-before_script:
-  - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
-  - (test -x $HOME/.cargo/bin/mdbook || cargo install --vers "^0.3" mdbook)
-  - cargo install-update -a
+Vielleicht willst du nach jeder Veränderung innerhalb deines Buchs
+(z.b. nach pull requests oder commit pushes) Testläufe vornehmen. Dies
+kann dazu verwendet werden, um Rust Quellcode-Beispiel im Buch zu prüfen.
+Natürlich ist hierzu die Installation von Rust zwingend. Einige Dienste haben Rust bereits
+vorinstalliert. Falls nicht, musst Du eine Anweisung ergänzen, die
+diese umsetzt.
 
-script:
-  - mdbook build && mdbook test # In case of custom book path: mdbook build path/to/mybook && mdbook test path/to/mybook
+Abgesehen davon, dass Du sicherstellen mußt, dass die richtige
+Version von Rust installiert ist, bleibt nicht viel außer einem Aufruf
+von `mdbook test` aus dem Buch-Verzeichnis.
 
-deploy:
-  provider: pages
-  strategy: git
-  edge: true
-  cleanup: false
-  github-token: $GITHUB_TOKEN
-  local-dir: book # In case of custom book path: path/to/mybook/book
-  keep-history: false
-  on:
-	branch: main
-  target_branch: gh-pages
+Vielleicht überlegst Du auch andere Test vorzunehmen. Als Beispiel kann mit
+[mdbook-linkcheck] überprüft werden, ob fehlerhafte Verweise existieren.
+Oder die möchtest eine Rechschreibprüfung und eigene Style-Checker zum ablauf bringen. Dies macht im CI Lauf durchaus Sinn.
+
+[`mdbook test`]: cli/test.md
+[mdbook-linkcheck]: https://github.com/Michael-F-Bryan/mdbook-linkcheck#continuous-integration
+
+## Bereitstellung
+
+Du wirst Dein Buch wahrscheinlich automatisch bereitstellen wollen.
+
+Some may want to do this with every time a change is pushed, and others may want to only deploy when a specific release is tagged.
+
+You'll also need to understand the specifics on how to push a change to your web service.
+For example, [GitHub Pages] just requires committing the output onto a specific git branch.
+Other services may require using something like SSH to connect to a remote server.
+
+The basic outline is that you need to run `mdbook build` to generate the output, and then transfer the files (which are in the `book` directory) to the correct location.
+
+You may then want to consider if you need to invalidate any caches on your web service.
+
+See the [Automated Deployment] wiki page for examples of various different services.
+
+[GitHub Pages]: https://docs.github.com/en/pages
+
+### 404 handling
+
+mdBook erstellt automatisch eine 404 Seite für alle ungültigen Verweise.
+Der Standardwert für die Ausgabe ist eine Datei mit dem Namen
+`404.html`, die sich im Root Verzeicnis des Buchs befindet.
+
+Manche Dienste, wie z.B. [GitHub Pages] wird diese Seite automatisch
+für ungültige Verweise verwenden.  Bei anderen kannst Du überlegen, ob
+Du eine Web Server konfigurieren willst, den im Fehlerfall hilft dies
+dem Leser zur aufrufenden Seite in deinem Buch zurück zu finden.
+
+Wenn dein Buch nicht im document-root deiner Domäne bereitgestellt
+wird, solltest du die [`output.html.site-url`] Seite so setzten, dass
+eine 404 Seite korrekt gefunden werden kann. Daher ist es wichtig,
+diesen Speicherort anzugeben, damit die statischen Dateien z.B. für
+CSS aufgelöst werden können.
+
+Ein Beispiel: Diese Anleitung soll unter <https://rust-lang.github.io/mdBook/> installiert werden,
+dann ist die `site-url` Einstellung wie folgt vorzunehmen:
+
+```toml
+# book.toml
+[output.html]
+site-url = "/mdBook/"
 ```
 
-### Manuelle Bereitstellung der GitHub Pages
+Du kannst das Aussehen der 404 Seite in deinem Buch anpassen, indem du
+die Datei `src/404.md` erzeugst.  Wenn Du einen anderen Dateinamen
+verwenden willst, kannst Du in [`output.html.input-404`] auf diesen
+Dateinamen verweisen.
 
-Wenn Dein CI keine GitHub Pages unterstützt, oder Du die
-Bereitstellung auf einer anderen Plattform mit GitHub Pages Unterstützung vornehmen willst:
-
- *Anmerkung: Du solltest wahrscheinlich anderes temporäres Verzeichnis verwenden*:
-
-
-```console
-$> git worktree add /tmp/book gh-pages
-$> mdbook build
-$> rm -rf /tmp/book/* # this won't delete the .git directory
-$> cp -rp book/* /tmp/book/
-$> cd /tmp/book
-$> git add -A
-$> git commit 'new book message'
-$> git push origin gh-pages
-$> cd -
-```
-
-Oder erstelle ein Makefile Datei mit folgenden Regeln:
-
-```makefile
-.PHONY: deploy
-deploy: book
-	@echo "====> deploying to github"
-	git worktree add /tmp/book gh-pages
-	rm -rf /tmp/book/*
-	cp -rp book/* /tmp/book/
-	cd /tmp/book && \
-		git add -A && \
-		git commit -m "deployed on $(shell date) by ${USER}" && \
-		git push origin gh-pages
-```
-
-## Bereitstellung Deines Buchs über GitLab Pages
-
-Erstelle bitte im Wurzelverzeichnis Deines repository's (`project root`), die Datei `.gitlab-ci.yml`.
-Deren Inhalt sollte so aussehen:
-
-```yml
-stages:
-	- deploy
-
-pages:
-  stage: deploy
-  image: rust
-  variables:
-	CARGO_HOME: $CI_PROJECT_DIR/cargo
-  before_script:
-	- export PATH="$PATH:$CARGO_HOME/bin"
-	- mdbook --version || cargo install mdbook
-  script:
-		- mdbook build -d public
-  only:
-	  - master
-  artifacts:
-	  paths:
-		  - public
-  cache:
-	paths:
-	- $CARGO_HOME/bin
-```
-
-Nach einem commit und upload dieser Datei via push this, wird die
-GitLab CI aktiv werden, Dein Buch ist verfügbar!
+[`output.html.site-url`]: format/configuration/renderers.md#html-renderer-options
+[`output.html.input-404`]: format/configuration/renderers.md#html-renderer-options
