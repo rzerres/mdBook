@@ -93,7 +93,7 @@ Der folgende code Block zeigt, wie alle in der Markdown-Quelle
 enthaltenen Hervorhebungen gelöscht werden können, ohne versehentlich
 dabei die Dokumentenstrutur zu zerstören.
 
-```rust,no_run
+```rust
 fn remove_emphasis(
 	num_removed_items: &mut usize,
 	chapter: &mut Chapter,
@@ -121,6 +121,35 @@ fn remove_emphasis(
 ```
 
 Für alle anderen Anwendungsfälle schau dir doch bitte ein auf GitHub verfügbares [komplettes Beispiel][example].
+
+## Implementierung eines Pre-Prozessors mit einer anderen Programmiersprache
+
+Dadurch das mdBook die Umleitung von stdin und stdout für die
+Kommunikation mit Pre-Prozessoren unterstützt, macht dies deren
+Implementierung in anderen Programmiersprachen sehr einfach.  Der
+nachfolgend gezeigte Quellcode ist die Implementierung eines
+einfachen Pre-Prozessors in `Python`. Dieser verändert den Inhalt des
+ersten Kapitels. Das Beispiel folgt der in `preprocessor.foo.command`
+angegebenen Konfiguration, die nun auf ein Python Skript verweist.
+
+```python
+import json
+import sys
+
+
+if __name__ == '__main__':
+	if len(sys.argv) > 1: # we check if we received any argument
+		if sys.argv[1] == "supports":
+			# then we are good to return an exit status code of 0, since the other argument will just be the renderer's name
+			sys.exit(0)
+
+	# load both the context and the book representations from stdin
+	context, book = json.load(sys.stdin)
+	# and now, we can just modify the content of the first chapter
+	book['sections'][0]['Chapter']['content'] = '# Hello'
+	# we are done with the book's modification, we can just print it to stdout,
+	print(json.dumps(book))
+```
 
 [preprocessor-docs]: https://docs.rs/mdbook/latest/mdbook/preprocess/trait.Preprocessor.html
 [pc]: https://crates.io/crates/pulldown-cmark
