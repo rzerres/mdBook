@@ -247,7 +247,11 @@ Here is what a rendered code snippet looks like:
 {{#playground example.rs}}
 
 Any additional values passed after the filename will be included as attributes of the code block.
-For example `\{{#playground example.rs editable}}` will create the code block like the following:
+For example
+
+`\{{#playground example.rs editable}}`
+
+will create the code block like the following:
 
 ~~~markdown
 ```rust,editable

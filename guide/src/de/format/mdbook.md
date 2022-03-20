@@ -7,7 +7,6 @@ durch voranstellen von `#` [wie auch in Rustdoc üblich][rustdoc-hide].
 Das funktioniert derzeit nur mit Blöcken, die Rust Quellcode enthalten.
 
 [rustdoc-hide]: https://doc.rust-lang.org/stable/rustdoc/documentation-tests.html#hiding-portions-of-the-example
-
 ```bash
 # fn main() {
 	let x = 5;
@@ -262,7 +261,7 @@ Im gerenderten Buch sieht dies dann wie folgt aus. Aktiviere das
 # }
 ```
 
-## Einfürgen eine Datei mit ausführbaren Rust Code
+## Einfügen eine Datei mit ausführbarem Rust Code
 
 Die folgende Syntax ermöglicht die Einbindung einer Datei mit
 ausführbaren Rust Code in Deinem Buch:
@@ -280,9 +279,13 @@ Ein gerendertes Code Schnipsel sieht dann so aus:
 
 {{#playground example.rs}}
 
+
 Alle zusätzlichen Werte die nach dem Dateinamen angegeben werden, werden
-als Attribute an den Code Block angefügt. Z.B. wird `\{{#playground example.rs
-editable}}` erzeugt den folgenden Code Block:
+als Attribute an den Code Block angefügt. Z.B. erzeugt
+
+`\{{#playground example.rs editable}}`
+
+den folgenden Code Block:
 
 ~~~markdown
 ```rust,editable
@@ -291,7 +294,7 @@ editable}}` erzeugt den folgenden Code Block:
 ~~~
 
 Das Attribut `editable` aktiviert den [editor] wie im Link [Rust
-code block attributes](#rust-code-block-attributes) beschrieben.
+code block Attribute](#rust-code-block-attribute) beschrieben.
 
 [Rust Playground]: https://play.rust-lang.org/
 

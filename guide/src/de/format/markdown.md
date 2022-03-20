@@ -77,7 +77,7 @@ Einfach nur eine url: <https://www.rust-lang.org>.
 
 Verwende [mdBook](https://github.com/rust-lang/mdBook).
 
-Lies über [mdBook](mdBook.md).
+Lies über [mdBook](mdbook.md).
 
 Einfach nur eine url: <https://www.rust-lang.org>.
 

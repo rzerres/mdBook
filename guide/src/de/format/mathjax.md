@@ -30,13 +30,13 @@ Inline Gleichungen werden mit dem Ausdruck `\\(` und `\\)` getrennt. Um also die
 \\( \int x dx = \frac{x^2}{2} + C \\)
 ```
 
-### Block Geichungen
+### Block Gleichungen
 Block Gleichungen werden mit dem Ausdruck `\\[` und `\\]` getrennt. Um die folgende Block Gleichung zu rendern
 
 \\[ \mu = \frac{1}{N} \sum_{i=0} x_i \\]
 
 
-ist folgender Code einzugebeny:
+ist dieser Code einzugeben:
 
 ```bash
 \\[ \mu = \frac{1}{N} \sum_{i=0} x_i \\]

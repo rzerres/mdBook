@@ -1,4 +1,4 @@
-## Umgebungs Variablen
+## Umgebungsvariablen
 
 
 Alle Konfigurationswerte können über auf der Kommandozeile durch das
