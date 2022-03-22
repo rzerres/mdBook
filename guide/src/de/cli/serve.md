@@ -72,14 +72,12 @@ wird in das Verzeichnis `./book` ausgegeben.
 Das Kommando `serve` wird keinen automatischen `build` von Dateien
 starten, die in der Konfigurationsdatei `.gitignore` im
 Wurzelverzeichnis deines Buchs angegeben sind. Die Datei `.gitignore`
-wertet solche Musterwerte aus, wie sie in der Dokumentation
-[gitignore](https://git-scm.com/docs/gitignore** beschrieben sind. Dies
-ist sehr hilfreich, um die von manchen Editoren temporär erzeugte
-Dateimuster auszuschließen.
+wertet solche Musterwerte aus, wie sie in der [gitignore
+Dokumentation](https://git-scm.com/docs/gitignore) beschrieben
+sind. Dies ist sehr hilfreich, um die von manchen Editoren temporär
+erzeugte Dateimuster auszuschließen.
 
--------------------
-
-> **Anmerkung:** Nur die `.gitignore` Datei im Wurzelverzeichnis des
-> Buchs wird ausgewertet. Globale Werte aus `$HOME/.gitignore` oder
-> `.gitignore` Dateien in übergeordneten Verzeichnissen werden
-> ignoriert.
+***Anmerkung:*** *Nur die `.gitignore` Datei im Wurzelverzeichnis des
+Buchs wird ausgewertet. Globale Werte aus `$HOME/.gitignore` oder
+`.gitignore` Dateien in übergeordneten Verzeichnissen werden
+ignoriert.*
