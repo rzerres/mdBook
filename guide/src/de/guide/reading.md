@@ -1,74 +1,92 @@
 # Lesen von Büchern
 
-This chapter gives an introduction on how to interact with a book produced by mdBook.
-This assumes you are reading an HTML book.
-The options and formatting will be different for other output formats such as PDF.
+Dieses Kapitel gibt einen Überblick, wie sie als Anwender die von
+mbBook erstellten Büchern nutzen können. Wir gehen im Weiteren davon
+aus, dass sie ein in HTML gerendertes Buch lesen. Die Optionen und
+Formatierungen bei anderen Ausgabeformaten, z.B. bei PDF Dokumenten,
+werden sich unterscheiden.
 
-A book is organized into *chapters*.
-Each chapter is a separate page.
-Chapters can be nested into a hierarchy of sub-chapters.
-Typically, each chapter will be organized into a series of *headings* to subdivide a chapter.
+Ein Buch wird in *Kapiteln* gegliedert. Jedes Kapitel ist eine
+eigenständige Seite.  Kapitel können in hierarchisch in Unterkapitel
+verschachtelt werden. Typischerweise wird dabei jedes Kapitel durch eine
+Reihe von *Überschriften* untergliedert.
 
 ## Navigation
 
-There are several methods for navigating through the chapters of a book.
+Es gibt verschiedene Arten, wie Du im Buch zwischen den Kapitel
 
-The **sidebar** on the left provides a list of all chapters.
-Clicking on any of the chapter titles will load that page.
+Die **Übersichtsleiste** auf der linken Seite listet alle vorhandenen
+Kapitel. Wenn Du eine Kapitel-Überschrift anklickst, wird die
+zugehörige Seite geladen und angezeigt.
 
-The sidebar may not automatically appear if the window is too narrow, particularly on mobile displays.
-In that situation, the menu icon (three horizontal bars) at the top-left of the page can be pressed to open and close the sidebar.
+Die Übersichgtsleiste wird nur dann automatisch angezeigt, wenn die
+Fenstergröße dies in sinnvoller Weise zulässt. Gerade auf Mobilen
+Endgeräten würde dies zu viel Darstellungsfläche verschwenden. Deshalb
+erscheint dann obern links auf der Seite ein Menü-Icon (symbolisiert
+durch drei horizontale Striche). Duch Aktivierung des Icons wird die
+Übersichtsleiste geöffnet, bzw. geschlossen.
 
-The **arrow buttons** at the bottom of the page can be used to navigate to the previous or the next chapter.
+Über die **Pfeile** unten auf der Seite kannst Du zum
+vorherigen oder nächsten Kapitel zu wechseln.
 
-The **left and right arrow keys** on the keyboard can be used to navigate to the previous or the next chapter.
+Ebenso kannst Du dazu die **Linke und Rechte Pfeiltaste** auf Deiner Tastatur verwenden.
 
 ## Hauptmenü Zeile
 
-The menu bar at the top of the page provides some icons for interacting with the book.
-The icons displayed will depend on the settings of how the book was generated.
+Der Aufbau der Menüzeile oben auf der Seite stellt weitere Navigations-Icons zur Verfügung:
+Die angezeigten Icons hängen dabei von den Einstellungen ab, die Du bei der Erzeugung des Buchs definieren kannst.
 
-| Icon | Description |
-|------|-------------|
-| <i class="fa fa-bars"></i> | Opens and closes the chapter listing sidebar. |
-| <i class="fa fa-paint-brush"></i> | Opens a picker to choose a different color theme. |
-| <i class="fa fa-search"></i> | Opens a search bar for searching within the book. |
-| <i class="fa fa-print"></i> | Instructs the web browser to print the entire book. |
-| <i class="fa fa-github"></i> | Opens a link to the website that hosts the source code of the book. |
-| <i class="fa fa-edit"></i> | Opens a page to directly edit the source of the page you are currently reading. |
+| Icon                              | Beschreibung                                                                                  |
+|-----------------------------------|-----------------------------------------------------------------------------------------------|
+| <i class="fa fa-bars"></i>        | Öffnet und schließt die Kapilelliste in der Übersichtsleiste.                                 |
+| <i class="fa fa-paint-brush"></i> | Öffnet die Auswahlliste der verfügbaren Farb-Themen.                                          |
+| <i class="fa fa-search"></i>      | Öffnet die Eingabezeile in der Du Suchbegriffe erfassen kannst.                               |
+| <i class="fa fa-print"></i>       | Startet den Dialog im Browser, über den das vollständige Buch ausgedruckt werden kann.        |
+| <i class="fa fa-github"></i>      | Öffnet einen Verweis auf die Web-Seite, die den Quellcode des Buchs bereitstellt.             |
+| <i class="fa fa-edit"></i>        | Öffnet eine Seite, in der Du den Quell-Code der aktiv angezeigten Leseseite editieren kannst. |
 
-Tapping the menu bar will scroll the page to the top.
+Tippst Du auf die Menüzeile, wird auf der Seite nach oben geblättert.
 
 ## Suche
 
-Each book has a built-in search system.
-Pressing the search icon (<i class="fa fa-search"></i>) in the menu bar, or pressing the `S` key on the keyboard will open an input box for entering search terms.
-Typing some terms will show matching chapters and sections in real time.
+Jedes Buch hat ein eingebautes Such-System.  Wir das Suchsymbol in der
+Menüzeile aktiviert (<i class="fa fa-search"></i>), der auf der
+Tastatur der Buchstabe 'S' gedrückt, wird eine Eingabezeile geöffnet, in der Du einen Suchbegriff eingeben kannst.
+Mit der Eingabe des Suchbegriffs wird das Buch in Echtzeit auf passende Kapitel und Unterkapitel durchsucht.
 
-Clicking any of the results will jump to that section.
-The up and down arrow keys can be used to navigate the results, and enter will open the highlighted section.
+Wähle einfach in der Ergebnisliste einen angebotenen Treffer und die
+Darstellung wechselt auf die entsprechende Seite.  Du kannst auch mit
+den Pfeil-Tasten `nach oben`, bzw. `nach unten` auf das gewünschte
+Resultat wechseln. Mit der Eingabezeile bestätigst Du die
+hervorgehobene Auswahl.
 
-After loading a search result, the matching search terms will be highlighted in the text.
-Clicking a highlighted word or pressing the `Esc` key will remove the highlighting.
+Nachdem ein Suchergebnis geladen wurde, werden die passenden
+Suchbegriffe im Text hervorgehoben.  Wenn Du auf das hervorgehobene
+Wort drückst oder die `Esc` Taste verwendest, wird die Hervorhebung
+deaktiviert.
 
 ## Quellcode Blöcke
 
-mdBook books are often used for programming projects, and thus support highlighting code blocks and samples.
+Besonders häufig wird mdBook für die Dokumentation von
+Programmen verwendet. Daher unterstützt es gerade die
+Hervorhebung von Quellcode Blöcken und Beispielen. Quellcode Blöcke können dabei mit unterschiedlichen Symbole kommentiert werden. Diese , über die die :
+
+books are often used for programming projects, and thus support highlighting code blocks and samples.
 Code blocks may contain several different icons for interacting with them:
 
-| Icon | Description |
-|------|-------------|
-| <i class="fa fa-copy"></i> | Copies the code block into your local clipboard, to allow pasting into another application. |
-| <i class="fa fa-play"></i> | For Rust code examples, this will execute the sample code and display the compiler output just below the example (see [playground]). |
-| <i class="fa fa-eye"></i> | For Rust code examples, this will toggle visibility of "hidden" lines. Sometimes, larger examples will hide lines which are not particularly relevant to what is being illustrated (see [hiding code lines]). |
-| <i class="fa fa-history"></i> | For [editable code examples][editor], this will undo any changes you have made. |
+| Symbol                        | Description                                                                                                                                                                                                                                          |
+|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <i class="fa fa-copy"></i>    | Kopiert den Quellcode Block in die Zwischenablage und kann damit in andere Programme übernommen werden.                                                                                                                                              |
+| <i class="fa fa-play"></i>    | Für Rust Quellcode Beispiele wird dadurch die Übersetzung und die Ausgabe der Kompiliermeldungen gestartet. Diese erfolgt direkt unterhalb des Beispiel-Codes (vgl. [playground]).                                                                   |
+| <i class="fa fa-eye"></i>     | Für Rust Quellcode und Beispiele werden "versteckte" Zeilen angezeigt, bzw ausgeblendet. Oftmals ist es sinnvoll solche Zeile auszublenden, deren Regionen im Quellcode nicht für die Kommentierung relevant sind (vgl [verteckte Quellcodezeilen]). |
+| <i class="fa fa-history"></i> | [Editierbare Quellcode][editor] ermöglicht es getätigte Änderungen zurückzusetzen.                                                                                                                                                     |
 
 Hier ein Beispiel:
 
 ```rust
-println!("Hello, mdBook!");
+println!("Hallo, mdBook!");
 ```
 
 [editor]: ../format/theme/editor.md
 [playground]: ../format/mdbook.md#rust-playground
-[hiding code lines]: ../format/mdbook.md#hiding-code-lines
+[versteckte Quellcodezeilen]: ../format/mdbook.md#hiding-code-lines

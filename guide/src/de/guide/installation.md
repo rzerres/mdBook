@@ -1,50 +1,61 @@
 # Installation
 
-There are multiple ways to install the mdBook CLI tool.
-Choose any one of the methods below that best suit your needs.
-If you are installing mdBook for automatic deployment, check out the [continuous integration] chapter for more examples on how to install.
+Du kannst die Installation von mdBook über die Kommandozeile (CLI)
+steuern.  Wähle aus der Auswahl die für Dich passende Methoden.  Wenn
+Du mdBook über eine automatische Bereitstellung installieren willst,
+lies bitte für weitere Details im Kapitel [continuous integration].
 
 [continuous integration]: ../continuous-integration.md
 
 ## Vorkomplierte Binärdateien
 
-Executable binaries are available for download on the [GitHub Releases page][releases].
-Download the binary for your platform (Windows, macOS, or Linux) and extract the archive.
-The archive contains an `mdbook` executable which you can run to build your books.
-
-To make it easier to run, put the path to the binary into your `PATH`.
+Bereits für Deine Plattform übersetzte Binärdateien werden über den
+Link [GitHub Releases page][releases] zum Download bereitgestellt.  Du
+findest dort Archive, die die Programmversionen von `mdbook` für das
+jeweilige Betriebssystem enthalten (Windows, macOS, or
+Linux). Entpacke die jeweilige Version und kopiere sie im Dateisystem
+an einen Ort, der im Suchpfad aufgelöst werden kann (vgl. `PATH`).
 
 [releases]: https://github.com/rust-lang/mdBook/releases
 
 ## Erstellung aus den Quellen mittels Rust
 
-To build the `mdbook` executable from source, you will first need to install Rust and Cargo.
-Follow the instructions on the [Rust installation page].
-mdBook currently requires at least Rust version 1.46.
+Um eine ausführbare Programmversion von `mdbook` aus dem Quellcode zu
+erzeugen, musst Du gegebenenfalls zunächst Rust und Cargo installieren.
 
-Once you have installed Rust, the following command can be used to build and install mdBook:
+Folge hierzu bitte den Angaben auf der [Rust Installationsseite].
+mdBook benötigt derzeit als Minimalvoraussetzung die Rust Version 1.46.
+
+Ist Rust verfügbar, erstellt und installiert der nachfolgende Aufruf die gewünschte Programmverson von `mdbook`:
 
 ```sh
 cargo install mdbook
 ```
 
-This will automatically download mdBook from [crates.io], build it, and install it in Cargo's global binary directory (`~/.cargo/bin/` by default).
+mdBook wird zunächst inklusive der Auflösung definierter
+Abhängigkeiten von [crates.io] heruntergeladen. Anschießend startet
+der Übersetzungsprozess und das Programm wird ins Cargo's
+Programmverzeichnis kopiert (Standardwert: `~/.cargo/bin/`).
 
-[Rust installation page]: https://www.rust-lang.org/tools/install
+[Rust Installationsseite]: https://www.rust-lang.org/tools/install
 [crates.io]: https://crates.io/
 
 ### Installation der aktuellsten master Version
 
-The version published to crates.io will ever so slightly be behind the version hosted on GitHub.
-If you need the latest version you can build the git version of mdBook yourself.
-Cargo makes this ***super easy***!
+Die auf crates.io veröffentlichte Programmversion wird immer leicht
+hinter der auf GitHub verwalteten Quellcode-Version
+abweichen. Benötigst Du die letzte verfügbare Version, kannst Du die
+dort bereitgestellte mdBook Git-Version selber leicht erstellen. Cargo ***vereinfacht*** diesen Prozess sehr!
 
 ```sh
 cargo install --git https://github.com/rust-lang/mdBook.git mdbook
 ```
 
-Again, make sure to add the Cargo bin directory to your `PATH`.
+Wie schon weiter oben erwähnt, stelle bitte sicher, dass das
+Binäreverzeichnis für mit Cargo erzeugte Programme in der
+Suchpfad-Variable Deines Betriebssystems (`PATH`) enthalten ist.
 
-If you are interested in making modifications to mdBook itself, check out the [Contributing Guide] for more information.
+Wenn Du mithelfen möchtest Änderungen an mdBook selbst umzusetzten,
+lese bitte für weiter Details im Kapitel [Contributing Guide].
 
 [Contributing Guide]: https://github.com/rust-lang/mdBook/blob/master/CONTRIBUTING.md

@@ -113,10 +113,13 @@ Dateien im Unterverzeichnis `src` wird sich mit denen der erzeugten
 HTML Dateien decken. Daher bedenke bitte, dass das Datei-Layout teil
 der URL eines jeden Kapitels ist.
 
-Während das `mdbook serve` Kommando aktiv ist, kannst Du alle Kapitel Dateien öffnen und in diesen editieren.
-Immer wenn du neuen Inhalt speicherst oder änderst wird `mdbook` Dein Buch neu erzeugen und den Browser mit diesem neuen Inhalt aktualisieren.
+Während das `mdbook serve` Kommando aktiv ist, kannst Du alle Kapitel
+Dateien öffnen und in diesen editieren.  Immer wenn du neuen Inhalt
+speicherst oder änderst wird `mdbook` Dein Buch neu erzeugen und den
+Browser mit diesem neuen Inhalt aktualisieren.
 
-Weiter Details bezüglich der Formatierung-Optionen zum Inhalt deiner Kapitel findest Du in der Dokumentation zum [Kapitel
+Weiter Details bezüglich der Formatierung-Optionen zum Inhalt deiner
+Kapitel findest Du in der Dokumentation zum [Kapitel
 Markdown](../format/markdown.md).
 
 Alle anderen Dateien im `src` Unterverzeichnis werden in der Ausgabe
