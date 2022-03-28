@@ -62,7 +62,7 @@ Here's a basic summary file with a few chapters:
 
 - [My First Chapter](my-first-chapter.md)
 - [Nested example](nested/README.md)
-    - [Sub-chapter](nested/sub-chapter.md)
+	- [Sub-chapter](nested/sub-chapter.md)
 ```
 
 Try opening up `src/SUMMARY.md` in your editor and adding a few chapters.
